@@ -1,12 +1,19 @@
 /**
  * GENERATED CODE - DO NOT MODIFY
  */
-import express from 'express'
-import { ValidationResult, BlobRef } from '@atproto/lexicon'
-import { lexicons } from '../../../../lexicons'
-import { isObj, hasProp } from '../../../../util'
+import { HeadersMap, XRPCError } from '@atproto/xrpc'
+import { type ValidationResult, BlobRef } from '@atproto/lexicon'
 import { CID } from 'multiformats/cid'
-import { HandlerAuth } from '@atproto/xrpc-server'
+import { validate as _validate } from '../../../../lexicons'
+import {
+  type $Typed,
+  is$typed as _is$typed,
+  type OmitKey,
+} from '../../../../util'
+
+const is$typed = _is$typed,
+  validate = _validate
+const id = 'com.atproto.server.refreshSession'
 
 export interface QueryParams {}
 
@@ -17,31 +24,34 @@ export interface OutputSchema {
   refreshJwt: string
   handle: string
   did: string
-  [k: string]: unknown
+  didDoc?: { [_ in string]: unknown }
+  active?: boolean
+  /** Hosting status of the account. If not specified, then assume 'active'. */
+  status?: 'takendown' | 'suspended' | 'deactivated' | (string & {})
 }
 
-export type HandlerInput = undefined
-
-export interface HandlerSuccess {
-  encoding: 'application/json'
-  body: OutputSchema
-  headers?: { [key: string]: string }
+export interface CallOptions {
+  signal?: AbortSignal
+  headers?: HeadersMap
+  qp?: QueryParams
 }
 
-export interface HandlerError {
-  status: number
-  message?: string
-  error?: 'AccountTakedown'
+export interface Response {
+  success: boolean
+  headers: HeadersMap
+  data: OutputSchema
 }
 
-export type HandlerOutput = HandlerError | HandlerSuccess
-export type HandlerReqCtx<HA extends HandlerAuth = never> = {
-  auth: HA
-  params: QueryParams
-  input: HandlerInput
-  req: express.Request
-  res: express.Response
+export class AccountTakedownError extends XRPCError {
+  constructor(src: XRPCError) {
+    super(src.status, src.error, src.message, src.headers, { cause: src })
+  }
 }
-export type Handler<HA extends HandlerAuth = never> = (
-  ctx: HandlerReqCtx<HA>,
-) => Promise<HandlerOutput> | HandlerOutput
+
+export function toKnownErr(e: any) {
+  if (e instanceof XRPCError) {
+    if (e.error === 'AccountTakedown') return new AccountTakedownError(e)
+  }
+
+  return e
+}

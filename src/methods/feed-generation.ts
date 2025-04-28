@@ -1,16 +1,18 @@
-import { InvalidRequestError } from '@atproto/xrpc-server'
-import { Server } from '../lexicon'
+import { Server, InvalidRequestError } from '@atproto/xrpc-server'
 import { AppContext } from '../config'
-import algos from '../algos'
-import { validateAuth } from '../auth'
+import { QueryParams } from '../lexicon/types/app/bsky/feed/getFeedSkeleton'
+import { ids } from '../lexicon/lexicons'
 import { AtUri } from '@atproto/syntax'
+import algos from '../algos'
 
-export default function (server: Server, ctx: AppContext) {
-  server.app.bsky.feed.getFeedSkeleton(async ({ params, req }) => {
-    const feedUri = new AtUri(params.feed)
+export default function (server: Server, appCtx: AppContext) {
+  server.method(ids.AppBskyFeedGetFeedSkeleton, async ({ params }) => {
+    const queryParams = params as unknown as QueryParams
+    const feedUri = new AtUri(queryParams.feed)
+
     const algo = algos[feedUri.rkey]
     if (
-      feedUri.hostname !== ctx.cfg.publisherDid ||
+      feedUri.hostname !== appCtx.cfg.publisherDid ||
       feedUri.collection !== 'app.bsky.feed.generator' ||
       !algo
     ) {
@@ -19,20 +21,14 @@ export default function (server: Server, ctx: AppContext) {
         'UnsupportedAlgorithm',
       )
     }
-    /**
-     * Example of how to check auth if giving user-specific results:
-     *
-     * const requesterDid = await validateAuth(
-     *   req,
-     *   ctx.cfg.serviceDid,
-     *   ctx.didResolver,
-     * )
-     */
 
-    const body = await algo(ctx, params)
+    console.log('algo', algo)
+
+    const body = await algo(appCtx, queryParams)
+
     return {
       encoding: 'application/json',
-      body: body,
+      body,
     }
   })
 }

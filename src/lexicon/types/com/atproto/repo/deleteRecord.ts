@@ -1,48 +1,63 @@
 /**
  * GENERATED CODE - DO NOT MODIFY
  */
-import express from 'express'
-import { ValidationResult, BlobRef } from '@atproto/lexicon'
-import { lexicons } from '../../../../lexicons'
-import { isObj, hasProp } from '../../../../util'
+import { HeadersMap, XRPCError } from '@atproto/xrpc'
+import { type ValidationResult, BlobRef } from '@atproto/lexicon'
 import { CID } from 'multiformats/cid'
-import { HandlerAuth } from '@atproto/xrpc-server'
+import { validate as _validate } from '../../../../lexicons'
+import {
+  type $Typed,
+  is$typed as _is$typed,
+  type OmitKey,
+} from '../../../../util'
+import type * as ComAtprotoRepoDefs from './defs.js'
+
+const is$typed = _is$typed,
+  validate = _validate
+const id = 'com.atproto.repo.deleteRecord'
 
 export interface QueryParams {}
 
 export interface InputSchema {
-  /** The handle or DID of the repo. */
+  /** The handle or DID of the repo (aka, current account). */
   repo: string
   /** The NSID of the record collection. */
   collection: string
-  /** The key of the record. */
+  /** The Record Key. */
   rkey: string
-  /** Compare and swap with the previous record by cid. */
+  /** Compare and swap with the previous record by CID. */
   swapRecord?: string
-  /** Compare and swap with the previous commit by cid. */
+  /** Compare and swap with the previous commit by CID. */
   swapCommit?: string
-  [k: string]: unknown
 }
 
-export interface HandlerInput {
-  encoding: 'application/json'
-  body: InputSchema
+export interface OutputSchema {
+  commit?: ComAtprotoRepoDefs.CommitMeta
 }
 
-export interface HandlerError {
-  status: number
-  message?: string
-  error?: 'InvalidSwap'
+export interface CallOptions {
+  signal?: AbortSignal
+  headers?: HeadersMap
+  qp?: QueryParams
+  encoding?: 'application/json'
 }
 
-export type HandlerOutput = HandlerError | void
-export type HandlerReqCtx<HA extends HandlerAuth = never> = {
-  auth: HA
-  params: QueryParams
-  input: HandlerInput
-  req: express.Request
-  res: express.Response
+export interface Response {
+  success: boolean
+  headers: HeadersMap
+  data: OutputSchema
 }
-export type Handler<HA extends HandlerAuth = never> = (
-  ctx: HandlerReqCtx<HA>,
-) => Promise<HandlerOutput> | HandlerOutput
+
+export class InvalidSwapError extends XRPCError {
+  constructor(src: XRPCError) {
+    super(src.status, src.error, src.message, src.headers, { cause: src })
+  }
+}
+
+export function toKnownErr(e: any) {
+  if (e instanceof XRPCError) {
+    if (e.error === 'InvalidSwap') return new InvalidSwapError(e)
+  }
+
+  return e
+}

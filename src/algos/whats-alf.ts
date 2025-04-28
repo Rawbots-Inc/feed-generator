@@ -10,7 +10,7 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
     .selectAll()
     .orderBy('indexedAt', 'desc')
     .orderBy('cid', 'desc')
-    .limit(params.limit)
+    .limit(params.limit ?? 10)
 
   if (params.cursor) {
     const timeStr = new Date(parseInt(params.cursor, 10)).toISOString()

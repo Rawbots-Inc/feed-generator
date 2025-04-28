@@ -1,18 +1,27 @@
 /**
  * GENERATED CODE - DO NOT MODIFY
  */
-import express from 'express'
-import { ValidationResult, BlobRef } from '@atproto/lexicon'
-import { lexicons } from '../../../../lexicons'
-import { isObj, hasProp } from '../../../../util'
+import { HeadersMap, XRPCError } from '@atproto/xrpc'
+import { type ValidationResult, BlobRef } from '@atproto/lexicon'
 import { CID } from 'multiformats/cid'
-import { HandlerAuth } from '@atproto/xrpc-server'
-import * as AppBskyActorDefs from '../actor/defs'
+import { validate as _validate } from '../../../../lexicons'
+import {
+  type $Typed,
+  is$typed as _is$typed,
+  type OmitKey,
+} from '../../../../util'
+import type * as AppBskyActorDefs from '../actor/defs.js'
+
+const is$typed = _is$typed,
+  validate = _validate
+const id = 'app.bsky.feed.getLikes'
 
 export interface QueryParams {
+  /** AT-URI of the subject (eg, a post record). */
   uri: string
+  /** CID of the subject record (aka, specific version of record), to filter likes. */
   cid?: string
-  limit: number
+  limit?: number
   cursor?: string
 }
 
@@ -23,47 +32,36 @@ export interface OutputSchema {
   cid?: string
   cursor?: string
   likes: Like[]
-  [k: string]: unknown
 }
 
-export type HandlerInput = undefined
-
-export interface HandlerSuccess {
-  encoding: 'application/json'
-  body: OutputSchema
-  headers?: { [key: string]: string }
+export interface CallOptions {
+  signal?: AbortSignal
+  headers?: HeadersMap
 }
 
-export interface HandlerError {
-  status: number
-  message?: string
+export interface Response {
+  success: boolean
+  headers: HeadersMap
+  data: OutputSchema
 }
 
-export type HandlerOutput = HandlerError | HandlerSuccess
-export type HandlerReqCtx<HA extends HandlerAuth = never> = {
-  auth: HA
-  params: QueryParams
-  input: HandlerInput
-  req: express.Request
-  res: express.Response
+export function toKnownErr(e: any) {
+  return e
 }
-export type Handler<HA extends HandlerAuth = never> = (
-  ctx: HandlerReqCtx<HA>,
-) => Promise<HandlerOutput> | HandlerOutput
 
 export interface Like {
+  $type?: 'app.bsky.feed.getLikes#like'
   indexedAt: string
   createdAt: string
   actor: AppBskyActorDefs.ProfileView
-  [k: string]: unknown
 }
 
-export function isLike(v: unknown): v is Like {
-  return (
-    isObj(v) && hasProp(v, '$type') && v.$type === 'app.bsky.feed.getLikes#like'
-  )
+const hashLike = 'like'
+
+export function isLike<V>(v: V) {
+  return is$typed(v, id, hashLike)
 }
 
-export function validateLike(v: unknown): ValidationResult {
-  return lexicons.validate('app.bsky.feed.getLikes#like', v)
+export function validateLike<V>(v: V) {
+  return validate<Like & V>(v, id, hashLike)
 }

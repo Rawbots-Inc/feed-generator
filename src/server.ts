@@ -2,13 +2,14 @@ import http from 'http'
 import events from 'events'
 import express from 'express'
 import { DidResolver, MemoryCache } from '@atproto/identity'
-import { createServer } from './lexicon'
+import { createServer } from '@atproto/xrpc-server'
 import feedGeneration from './methods/feed-generation'
 import describeGenerator from './methods/describe-generator'
 import { createDb, Database, migrateToLatest } from './db'
 import { FirehoseSubscription } from './subscription'
 import { AppContext, Config } from './config'
 import wellKnown from './well-known'
+import { schemas } from './lexicon/lexicons'
 
 export class FeedGenerator {
   public app: express.Application
@@ -40,8 +41,7 @@ export class FeedGenerator {
       didCache,
     })
 
-    const server = createServer({
-      validateResponse: true,
+    const server = createServer(schemas, {
       payload: {
         jsonLimit: 100 * 1024, // 100kb
         textLimit: 100 * 1024, // 100kb
@@ -55,7 +55,7 @@ export class FeedGenerator {
     }
     feedGeneration(server, ctx)
     describeGenerator(server, ctx)
-    app.use(server.xrpc.router)
+    app.use(server.router)
     app.use(wellKnown(ctx))
 
     return new FeedGenerator(app, db, firehose, cfg)

@@ -8,13 +8,12 @@ import { Record as LikeRecord } from '../lexicon/types/app/bsky/feed/like'
 import { Record as FollowRecord } from '../lexicon/types/app/bsky/graph/follow'
 import {
   Commit,
-  OutputSchema as RepoEvent,
   isCommit,
 } from '../lexicon/types/com/atproto/sync/subscribeRepos'
 import { Database } from '../db'
 
 export abstract class FirehoseSubscriptionBase {
-  public sub: Subscription<RepoEvent>
+  public sub: Subscription<Commit>
 
   constructor(public db: Database, public service: string) {
     this.sub = new Subscription({
@@ -23,7 +22,7 @@ export abstract class FirehoseSubscriptionBase {
       getParams: () => this.getCursor(),
       validate: (value: unknown) => {
         try {
-          return lexicons.assertValidXrpcMessage<RepoEvent>(
+          return lexicons.assertValidXrpcMessage<Commit>(
             ids.ComAtprotoSyncSubscribeRepos,
             value,
           )
@@ -34,7 +33,7 @@ export abstract class FirehoseSubscriptionBase {
     })
   }
 
-  abstract handleEvent(evt: RepoEvent): Promise<void>
+  abstract handleEvent(evt: Commit): Promise<void>
 
   async run(subscriptionReconnectDelay: number) {
     try {
@@ -91,17 +90,23 @@ export const getOpsByType = async (evt: Commit): Promise<OperationsByType> => {
 
     if (op.action === 'create') {
       if (!op.cid) continue
-      const recordBytes = car.blocks.get(op.cid)
+      const recordBytes = car.blocks.get(op.cid.asCID)
       if (!recordBytes) continue
       const record = cborToLexRecord(recordBytes)
+      console.log('record', record)
       const create = { uri, cid: op.cid.toString(), author: evt.repo }
+      console.log('create', create)
       if (collection === ids.AppBskyFeedPost && isPost(record)) {
+        console.log('isPost', record)
         opsByType.posts.creates.push({ record, ...create })
       } else if (collection === ids.AppBskyFeedRepost && isRepost(record)) {
+        console.log('isRepost', record)
         opsByType.reposts.creates.push({ record, ...create })
       } else if (collection === ids.AppBskyFeedLike && isLike(record)) {
+        console.log('isLike', record)
         opsByType.likes.creates.push({ record, ...create })
       } else if (collection === ids.AppBskyGraphFollow && isFollow(record)) {
+        console.log('isFollow', record)
         opsByType.follows.creates.push({ record, ...create })
       }
     }
