@@ -8,8 +8,8 @@
   "author": "dholms <dtholmgren@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "publishFeed": "ts-node scripts/publishFeedGen.ts",
-    "unpublishFeed": "ts-node scripts/unpublishFeedGen.ts",
+    "publishFeed": "npx tsx scripts/publishFeedGen.ts",
+    "unpublishFeed": "npx tsx scripts/unpublishFeedGen.ts",
     "start": "npx tsx src/index.ts",
     "build": "tsc"
   },
