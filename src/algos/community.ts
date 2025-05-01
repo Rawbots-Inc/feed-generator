@@ -4,7 +4,11 @@ import { AppContext } from '../config'
 export const shortname = 'community'
 
 export const handler = async (ctx: AppContext, params: QueryParams) => {
+  console.log(
+    `handler get feed generator with param: \n community: ${params?.community}\n limit: ${params?.limit}\n cursor: ${params?.cursor}\nfeed: ${params?.feed}`,
+  )
   if (!params.community) {
+    console.log('Missing required "community" param')
     throw new Error('Missing required "community" param')
   }
 
@@ -21,11 +25,17 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
     builder = builder.where('post.indexedAt', '<', timeStr)
   }
 
+  console.log('builder', builder)
+
   const res = await builder.execute()
+
+  console.log('res', res)
 
   const feed = res.map((row) => ({
     post: row.uri,
   }))
+
+  console.log('feed', feed)
 
   let cursor: string | undefined
   const last = res.at(-1)

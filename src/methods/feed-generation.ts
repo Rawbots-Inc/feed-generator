@@ -22,7 +22,7 @@ export default function (server: Server, appCtx: AppContext) {
       )
     }
 
-    console.log('algo', algo)
+    console.log(`algo: ${algo?.name}`)
 
     const body = await algo(appCtx, queryParams)
 
