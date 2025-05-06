@@ -13,7 +13,6 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     const postsToCreate = ops.posts.creates
       .filter((create) => {
         const community = (create.record as any).community
-        console.log(' có community ko ', community)
         return typeof community === 'string' && community.trim() !== ''
       })
       .map((create) => {
