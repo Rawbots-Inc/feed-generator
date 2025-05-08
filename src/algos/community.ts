@@ -18,10 +18,9 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
     }
   }
 
-  let timestamp: number | null
-  let community: string
+  let timestamp: number | null, community: string, oldCursor: string
   try {
-    ({ timestamp, community } = decodeCursor(params.cursor))
+    ;({ timestamp, community, oldCursor } = decodeCursor(params.cursor))
   } catch (err) {
     console.error('Failed to decode cursor:', err)
     return { feed: [], cursor: undefined }
@@ -39,22 +38,24 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
     builder = builder.where('indexedAt', '<', cutoff)
   }
 
-  builder = builder
+  const rows = await builder
     .orderBy('indexedAt', 'desc')
     .orderBy('cid', 'desc')
     .limit(params.limit ?? 10)
-
-  const rows = await builder.execute()
+    .execute()
 
   const feed = rows.map((r) => ({ post: r.uri }))
 
   console.log('feed', feed)
 
   let newCursor: string | undefined
-  const last = rows.at(-1)
-  if (last) {
+  if (rows.length) {
+    const last = rows[rows.length - 1]
     const newTs = new Date(last.indexedAt).getTime()
-    newCursor = encodeCursor(newTs, community)
+    const restToken = oldCursor.split('::', 2)[1] ?? ''
+    const newBase = `${newTs}::${restToken}`
+    const newCommEnc = Buffer.from(community, 'utf-8').toString('base64')
+    newCursor = `${newBase}_${newCommEnc}`
   }
 
   return {
