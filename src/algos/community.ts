@@ -18,28 +18,33 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
     }
   }
 
-  let timestamp: number
+  let timestamp: number | null
   let community: string
-
   try {
-    ;({ timestamp, community } = decodeCursor(params.cursor))
+    ({ timestamp, community } = decodeCursor(params.cursor))
   } catch (err) {
     console.error('Failed to decode cursor:', err)
     return { feed: [], cursor: undefined }
   }
   console.log(`Decoded community=${community}, timestamp=${timestamp}`)
 
-  const cutoff = new Date(timestamp).toISOString()
-
-  const rows = await ctx.db
+  let builder = ctx.db
     .selectFrom('post')
     .selectAll()
     .where('community', '=', community)
-    .where('indexedAt', '<', cutoff)
+
+  if (timestamp != null) {
+    const cutoff = new Date(timestamp).toISOString()
+    console.log(`Applying cutoff: indexedAt < ${cutoff}`)
+    builder = builder.where('indexedAt', '<', cutoff)
+  }
+
+  builder = builder
     .orderBy('indexedAt', 'desc')
     .orderBy('cid', 'desc')
     .limit(params.limit ?? 10)
-    .execute()
+
+  const rows = await builder.execute()
 
   const feed = rows.map((r) => ({ post: r.uri }))
 
