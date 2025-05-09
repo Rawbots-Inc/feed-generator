@@ -95,18 +95,13 @@ export const getOpsByType = async (evt: Commit): Promise<OperationsByType> => {
       const record = cborToLexRecord(recordBytes)
       console.log('record', record)
       const create = { uri, cid: op.cid.toString(), author: evt.repo }
-      console.log('create', create)
       if (collection === ids.AppBskyFeedPost && isPost(record)) {
-        console.log('isPost', record)
         opsByType.posts.creates.push({ record, ...create })
       } else if (collection === ids.AppBskyFeedRepost && isRepost(record)) {
-        console.log('isRepost', record)
         opsByType.reposts.creates.push({ record, ...create })
       } else if (collection === ids.AppBskyFeedLike && isLike(record)) {
-        console.log('isLike', record)
         opsByType.likes.creates.push({ record, ...create })
       } else if (collection === ids.AppBskyGraphFollow && isFollow(record)) {
-        console.log('isFollow', record)
         opsByType.follows.creates.push({ record, ...create })
       }
     }

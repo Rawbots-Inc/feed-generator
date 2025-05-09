@@ -3,8 +3,6 @@ import { FirehoseSubscriptionBase, getOpsByType } from './util/subscription'
 
 export class FirehoseSubscription extends FirehoseSubscriptionBase {
   async handleEvent(evt: Commit) {
-    console.log('handle evt', evt)
-
     const ops = await getOpsByType(evt)
     console.log('ops', ops)
 
@@ -26,6 +24,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
       })
 
     if (postsToDelete.length > 0) {
+      console.log('Community posts delete ', postsToCreate)
       await this.db
         .deleteFrom('post')
         .where('uri', 'in', postsToDelete)
@@ -33,6 +32,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     }
 
     if (postsToCreate.length > 0) {
+      console.log('Community posts create ', postsToCreate)
       await this.db
         .insertInto('post')
         .values(postsToCreate)
