@@ -46,7 +46,7 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
 
   const feed = rows.map((r) => ({ post: r.uri }))
 
-  console.log('feed', feed)
+  console.log('Community feeds response', feed)
 
   let newCursor: string | undefined
   if (rows.length) {

@@ -93,7 +93,6 @@ export const getOpsByType = async (evt: Commit): Promise<OperationsByType> => {
       const recordBytes = car.blocks.get(op.cid.asCID)
       if (!recordBytes) continue
       const record = cborToLexRecord(recordBytes)
-      console.log('record', record)
       const create = { uri, cid: op.cid.toString(), author: evt.repo }
       if (collection === ids.AppBskyFeedPost && isPost(record)) {
         opsByType.posts.creates.push({ record, ...create })
