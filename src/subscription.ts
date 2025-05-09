@@ -24,7 +24,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
 
     if (postsToDelete.length > 0) {
       console.log('ops', ops)
-      console.log('Community posts delete ', postsToCreate)
+      console.log('Community posts delete ', postsToDelete)
       await this.db
         .deleteFrom('post')
         .where('uri', 'in', postsToDelete)
