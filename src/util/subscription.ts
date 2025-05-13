@@ -75,8 +75,8 @@ export abstract class FirehoseSubscriptionBase {
 
 export const getOpsByType = async (evt: Commit): Promise<OperationsByType> => {
   if (!evt.blocks) {
-    console.log('Received Commit evt:', JSON.stringify(evt, null, 2))
-    console.warn('Skipping Commit: evt.blocks is undefined')
+    // console.log('Received Commit evt:', JSON.stringify(evt, null, 2))
+    // console.log('Skipping Commit: evt.blocks is undefined')
     return {
       posts: { creates: [], deletes: [] },
       reposts: { creates: [], deletes: [] },
