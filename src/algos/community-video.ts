@@ -34,11 +34,18 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
   }
 
   builder = builder
-  .where(sql`json_extract(embed, '$.$type')`, '=', 'app.bsky.embed.recordWithMedia')
   .where(sql<boolean>`
-    EXISTS (
-      SELECT 1 FROM json_each(json_extract(embed, '$.media.media'))
-      WHERE json_extract(value, '$.mimeType') LIKE 'video/%'
+    (
+      json_extract(embed, '$.$type') = 'app.bsky.embed.video'
+      AND json_extract(embed, '$.video.mimeType') LIKE 'video/%'
+    )
+    OR
+    (
+      json_extract(embed, '$.$type') = 'app.bsky.embed.recordWithMedia'
+      AND EXISTS (
+        SELECT 1 FROM json_each(json_extract(embed, '$.media.media'))
+        WHERE json_extract(value, '$.mimeType') LIKE 'video/%'
+      )
     )
   `)
 
