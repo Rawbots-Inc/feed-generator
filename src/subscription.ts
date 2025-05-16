@@ -14,11 +14,13 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
       })
       .map((create) => {
         const community = (create.record as any).community as string
+        const embed = (create.record as any).embed ?? null
         return {
           uri: create.uri,
           cid: create.cid,
           indexedAt: new Date().toISOString(),
           community: community,
+          embed: embed,
         }
       })
 
