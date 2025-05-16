@@ -1,7 +1,7 @@
 import { QueryParams } from '../lexicon/types/app/bsky/feed/getFeedSkeleton'
 import { AppContext } from '../config'
 
-import { encodeCursor, decodeCursor } from '../util/helpers'
+import { decodeCursor } from '../util/helpers'
 
 export const shortname = 'community'
 

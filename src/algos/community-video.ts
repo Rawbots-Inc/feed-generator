@@ -1,7 +1,8 @@
 import { QueryParams } from '../lexicon/types/app/bsky/feed/getFeedSkeleton'
 import { AppContext } from '../config'
 
-import { encodeCursor, decodeCursor } from '../util/helpers'
+import { decodeCursor } from '../util/helpers'
+import { sql } from 'kysely'
 
 export const shortname = 'community-video'
 
@@ -31,6 +32,15 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
     builder = builder.where('community', '=', community)
     console.log(`Applying community filter: = ${community}`)
   }
+
+  builder = builder
+  .where(sql`embed->>'$type'`, '=', 'app.bsky.embed.recordWithMedia')
+  .where(sql<boolean>`
+    EXISTS (
+      SELECT 1 FROM jsonb_array_elements(embed->'media'->'media') AS media
+      WHERE media->>'mimeType' LIKE 'video/%'
+    )
+  `)
 
   if (timestamp != null) {
     const cutoff = new Date(timestamp).toISOString()
