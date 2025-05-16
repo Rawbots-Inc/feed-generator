@@ -20,7 +20,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
           cid: create.cid,
           indexedAt: new Date().toISOString(),
           community: community,
-          embed: embed,
+          embed: embed ? JSON.stringify(embed) : null,
         }
       })
 
