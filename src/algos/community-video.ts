@@ -34,13 +34,15 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
   }
 
   builder = builder
-  .where(sql`embed->>'$type'`, '=', 'app.bsky.embed.recordWithMedia')
+  .where(sql`json_extract(embed, '$.$type')`, '=', 'app.bsky.embed.recordWithMedia')
   .where(sql<boolean>`
     EXISTS (
-      SELECT 1 FROM jsonb_array_elements(embed->'media'->'media') AS media
-      WHERE media->>'mimeType' LIKE 'video/%'
+      SELECT 1 FROM json_each(json_extract(embed, '$.media.media'))
+      WHERE json_extract(value, '$.mimeType') LIKE 'video/%'
     )
   `)
+
+  console.log('Filtered video posts')
 
   if (timestamp != null) {
     const cutoff = new Date(timestamp).toISOString()
