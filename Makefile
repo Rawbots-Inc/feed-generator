@@ -17,7 +17,8 @@ FEEDGEN_PUBLISHER_DID ?=
 GOINSECURE :=${DOMAIN},*.${DOMAIN}
 NODE_TLS_REJECT_UNAUTHORIZED :=0
 
-Sfeed ?=caddy caddy-sidecar feed-generator
+Sdep ?=caddy caddy-sidecar
+Sfeed ?=feed-generator
 
 wDir ?=${PWD}
 
@@ -41,7 +42,7 @@ include ops/certs.mk
 include ops/docker.mk
 include ops/patch.mk
 
-.PHONY: setupdir genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig build-images deploy publishFeedEnv
+.PHONY: setupdir genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig start build-images deploy publishFeedEnv
 
 setupdir:
 	mkdir -p ${aDir}
@@ -69,6 +70,13 @@ generateCA:
 setup:
 	make generateSecrets
 	make generateCA
+
+start:
+	GOINSECURE=${GOINSECURE} \
+	NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED} \
+	DOMAIN=${DOMAIN} \
+	EMAIL4CERTS=${EMAIL4CERTS} \
+	docker compose up ${Sdep}
 
 build-images:
 	GOINSECURE=${GOINSECURE} \
