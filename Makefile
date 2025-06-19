@@ -17,7 +17,8 @@ FEEDGEN_PUBLISHER_DID ?=
 GOINSECURE :=${DOMAIN},*.${DOMAIN}
 NODE_TLS_REJECT_UNAUTHORIZED :=0
 
-Sfeed ?=caddy caddy-sidecar feed-generator
+Sdep  ?=caddy caddy-sidecar
+Sfeed ?=feed-generator
 
 wDir ?=${PWD}
 
