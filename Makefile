@@ -41,7 +41,10 @@ include ops/certs.mk
 include ops/docker.mk
 include ops/patch.mk
 
-.PHONY: genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig build-images deploy publishFeedEnv
+.PHONY: setupdir genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig build-images deploy publishFeedEnv
+
+setupdir:
+	mkdir -p ${aDir}
 
 genSecrets: ${passfile}
 ${passfile}: ./config/gen-secrets.sh
@@ -84,6 +87,10 @@ communityVideoConfig:
 	cp feeds_config/community_video.env .env
 
 # Run the feed publisher script
-publishFeedEnv:
+publish:
 	@echo "Running publishFeedGen.ts"
 	npx tsx scripts/publishFeedGen.ts
+
+unpublish:
+	@echo "Running unpublishFeedGen.ts"
+	npx tsx scripts/unpublishFeedGen.ts
