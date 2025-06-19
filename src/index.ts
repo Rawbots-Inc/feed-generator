@@ -3,7 +3,7 @@ import FeedGenerator from './server'
 
 const run = async () => {
   dotenv.config()
-  const hostname = 'feed-generator.repsky.unify.mx'
+  const hostname = 'feed-generator.rsky.ai'
   const serviceDid = `did:web:${hostname}`
   const server = FeedGenerator.create({
     port: 3000,

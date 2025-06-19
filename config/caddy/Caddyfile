@@ -19,7 +19,7 @@
 		method OPTIONS
 	}
 	@corsOrigin {
-		header_regexp Origin ^https?://*.({$DOMAIN})$
+		header_regexp Origin ^https?://*.rsky.ai$
 	}
 
 	handle @cors_preflight {
@@ -49,7 +49,7 @@
 #   accessible as https://ca.DOMAIN:9000/acme/local/directory
 #   cf. https://blog.kurokobo.com/archives/3669#Caddy_acme_server
 #
-ca.{$DOMAIN}:9000 {
+ca.rsky.ai:9000 {
 	tls internal
 	acme_server
 }
@@ -76,9 +76,9 @@ ca.{$DOMAIN}:9000 {
 
 # starts: to check if caddy works as reverse proxy, for HTTP(S) and WS(S) >>>>>>>>>>
 #  for HTTPS/WSS => HTTP/WS, you can test websocket by ```wscat -c wss://test-wss.mybluesky.local.com/ws```
-test-wss.{$DOMAIN} {
+test-wss.rsky.ai {
 	import cors
-	tls {$EMAIL4CERTS} {
+	tls rawbotsteam@gmail.com {
 		on_demand
 	}
 
@@ -92,9 +92,9 @@ test-wss.{$DOMAIN} {
 }
 
 #  for HTTP/WS => HTTP/WS, you can test websocket by ```wscat -c ws://test-ws.mybluesky.local.com/ws```
-http://test-ws.{$DOMAIN} {
+http://test-ws.rsky.ai {
 	import cors
-	tls {$EMAIL4CERTS} {
+	tls rawbotsteam@gmail.com {
 		on_demand
 	}
 	@ws {
@@ -110,9 +110,9 @@ http://test-ws.{$DOMAIN} {
 
 # starts: simple mapping >>>>>
 
-${feedgenFQDN} {
+feed-generator.rsky.ai {
 	import cors
-	tls {$EMAIL4CERTS} {
+	tls rawbotsteam@gmail.com {
 		on_demand
 	}
 	reverse_proxy http://feed-generator:3000
