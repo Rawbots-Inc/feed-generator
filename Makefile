@@ -13,12 +13,11 @@ FEEDGEN_PUBLISHER_HANDLE ?=
 FEEDGEN_EMAIL ?=
 FEEDGEN_PUBLISHER_PASSWORD ?=
 FEEDGEN_PUBLISHER_DID ?=
-
 GOINSECURE :=${DOMAIN},*.${DOMAIN}
 NODE_TLS_REJECT_UNAUTHORIZED :=0
 
-Sdep  ?= 
-Sfeed ?=caddy-sidecar caddy feed-generator
+Sdep  ?=caddy caddy-sidecar database redis test-wss test-ws
+Sfeed ?=feed-generator
 
 wDir ?=${PWD}
 
@@ -75,6 +74,7 @@ build-images:
 	docker compose build ${Sfeed}
 
 deploy:
+	make docker-start
 	make docker-start-bsky-feedgen
 
 # Copy community.env to .env
@@ -95,3 +95,13 @@ publish:
 unpublish:
 	@echo "Running unpublishFeedGen.ts"
 	npx tsx scripts/unpublishFeedGen.ts
+
+echo:
+	@echo "Environment variables:"
+	@echo "DOMAIN: ${DOMAIN}"
+	@echo "EMAIL4CERTS: ${EMAIL4CERTS}"
+	@echo "FEEDGEN_PUBLISHER_HANDLE: ${FEEDGEN_PUBLISHER_HANDLE}"
+	@echo "FEEDGEN_EMAIL: ${FEEDGEN_EMAIL}"
+	@echo "FEEDGEN_PUBLISHER_PASSWORD: ${FEEDGEN_PUBLISHER_PASSWORD}"
+	@echo "FEEDGEN_PUBLISHER_DID: ${FEEDGEN_PUBLISHER_DID}"
+	@echo "feedgenFQDN: ${feedgenFQDN}"
