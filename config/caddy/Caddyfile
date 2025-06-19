@@ -110,7 +110,7 @@ http://test-ws.{$DOMAIN} {
 
 # starts: simple mapping >>>>>
 
-{$feedgenFQDN} {
+feed-generator.rsky.ai {
 	import cors
 	tls {$EMAIL4CERTS} {
 		on_demand
