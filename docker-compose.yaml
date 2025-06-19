@@ -95,10 +95,10 @@ services:
     restart: always
 
   feed-generator:
-    image: bluesky-feed-generator:${asof}
+    image: bluesky-feed-generator:latest
     profiles: ['', 'feed-generator']
     build:
-      context: ./repos/feed-generator/
+      context: .
       dockerfile: Dockerfile
       args:
        - http_proxy=${http_proxy}
