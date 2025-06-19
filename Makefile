@@ -73,9 +73,7 @@ setup:
 build-images:
 	docker compose build ${Sfeed}
 
-deploy:
-	make docker-start
-	make docker-start-bsky-feedgen
+deploy: echo docker-start docker-start-bsky-feedgen
 
 # Copy community.env to .env
 communityConfig:
