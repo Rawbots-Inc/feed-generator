@@ -4,45 +4,45 @@
 #
 # global options: starts >>>>
 {
-#	debug
-        on_demand_tls {
-          ask http://caddy-sidecar:80
-        }
-#    limits to HTTP/1.1 >>>
-        servers  {
-          protocols  h1
-        }
-#    limits to HTTP/1.1 <<<
+	#	debug
+	on_demand_tls {
+		ask http://caddy-sidecar:80
+	}
+	#    limits to HTTP/1.1 >>>
+	servers {
+		protocols h1
+	}
+	#    limits to HTTP/1.1 <<<
 }
 
 # https://caddy.community/t/how-can-i-allow-multiple-domain-origins-in-cors/22129/5
 (cors) {
-    @cors_preflight {
-        method OPTIONS
-    }
-    @corsOrigin {
-        header_regexp Origin ^https?://*.({$DOMAIN})$
-    }
+	@cors_preflight {
+		method OPTIONS
+	}
+	@corsOrigin {
+		header_regexp Origin ^https?://*.({$DOMAIN})$
+	}
 
-    handle @cors_preflight {
-        header {
-            Access-Control-Allow-Origin "*"
-            Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE"
-            Access-Control-Allow-Headers *
-            Vary Origin
-            defer
-        }
-        respond "" 204
-    }
+	handle @cors_preflight {
+		header {
+			Access-Control-Allow-Origin "*"
+			Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE"
+			Access-Control-Allow-Headers *
+			Vary Origin
+			defer
+		}
+		respond "" 204
+	}
 
-    handle @corsOrigin {
-        header {
-            Access-Control-Allow-Origin "*"
-            Access-Control-Expose-Headers *
-            Vary Origin
-            defer
-        }
-    }
+	handle @corsOrigin {
+		header {
+			Access-Control-Allow-Origin "*"
+			Access-Control-Expose-Headers *
+			Vary Origin
+			defer
+		}
+	}
 }
 
 # global options: ends   <<<<
@@ -79,10 +79,10 @@ ca.{$DOMAIN}:9000 {
 # starts: to check if caddy works as reverse proxy, for HTTP(S) and WS(S) >>>>>>>>>>
 #  for HTTPS/WSS => HTTP/WS, you can test websocket by ```wscat -c wss://test-wss.mybluesky.local.com/ws```
 test-wss.{$DOMAIN} {
-        import cors
+	import cors
 	tls {$EMAIL4CERTS} {
-          on_demand
-        }
+		on_demand
+	}
 
 	@ws {
 		header Connection *Upgrade*
@@ -91,15 +91,14 @@ test-wss.{$DOMAIN} {
 
 	reverse_proxy @ws http://test-wss:8080
 	reverse_proxy http://test-wss:8080
-
 }
 
 #  for HTTP/WS => HTTP/WS, you can test websocket by ```wscat -c ws://test-ws.mybluesky.local.com/ws```
 http://test-ws.{$DOMAIN} {
-        import cors
+	import cors
 	tls {$EMAIL4CERTS} {
-          on_demand
-        }
+		on_demand
+	}
 	@ws {
 		header Connection *Upgrade*
 		header Upgrade websocket
@@ -114,10 +113,10 @@ http://test-ws.{$DOMAIN} {
 # starts: simple mapping >>>>>
 
 {$feedgenFQDN} {
-        import cors
+	import cors
 	tls {$EMAIL4CERTS} {
-          on_demand
-        }
+		on_demand
+	}
 	reverse_proxy http://feed-generator:3000
 }
 # ends:  simple mapping <<<<<
