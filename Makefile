@@ -1,18 +1,13 @@
 # Makefile
-ifneq ("$(wildcard .makeenv)","")
-  include .makeenv
-  export
-endif
-
-DOMAIN ?=repsky.unify.mx
+DOMAIN ?=rsky.ai
 feedgenFQDN   ?=feed-generator.${DOMAIN}
 
-EMAIL4CERTS ?=
+EMAIL4CERTS ?=rawbotsteam@gmail.com
 
-FEEDGEN_PUBLISHER_HANDLE ?=
-FEEDGEN_EMAIL ?=
-FEEDGEN_PUBLISHER_PASSWORD ?=
-FEEDGEN_PUBLISHER_DID ?=
+FEEDGEN_PUBLISHER_HANDLE ?=rsky.ai
+FEEDGEN_EMAIL ?=rawbotsteam@gmail.com
+FEEDGEN_PUBLISHER_PASSWORD ?=123456a@A
+FEEDGEN_PUBLISHER_DID ?=did:plc:4ah7wr6kehwauzdftnfnprse
 GOINSECURE :=${DOMAIN},*.${DOMAIN}
 NODE_TLS_REJECT_UNAUTHORIZED :=0
 
