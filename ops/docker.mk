@@ -1,7 +1,7 @@
 
 docker_network ?= bsky_${DOMAIN}
 dockerCompose ?= docker compose
-auto_watchlog ?= true
+auto_watchlog ?= false
 COMPOSE_PROFILES ?= $(shell echo ${_nrepo} | sed 's/ /,/g')
 
 _dockerUp: _load_vars _dockerUP_network
