@@ -1,19 +1,17 @@
+{
+	on_demand_tls {
+		ask http://caddy-sidecar:80
+	}
+	servers {
+		protocols h1
+	}
+}
+
 #
 # this mapping rules are converted into Caddyfile from traefik rules of https://github.com/ikuradon/atproto-starter-kit/blob/main/compose.yaml
 # cf. https://caddyserver.com/docs/caddyfile
 #
 # global options: starts >>>>
-{
-	#	debug
-	on_demand_tls {
-		ask http://caddy-sidecar:80
-	}
-	#    limits to HTTP/1.1 >>>
-	servers {
-		protocols h1
-	}
-	#    limits to HTTP/1.1 <<<
-}
 
 # https://caddy.community/t/how-can-i-allow-multiple-domain-origins-in-cors/22129/5
 (cors) {
