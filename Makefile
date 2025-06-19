@@ -41,7 +41,6 @@ generateSecrets:
 	@echo "Generating secrets"
 	@echo Install required tools if missing.
 	apt install -y make pwgen
-	(cd ops-helper/apiImpl ; npm install)
 	(sudo curl -o /usr/local/bin/websocat -L https://github.com/vi/websocat/releases/download/v1.13.0/websocat.x86_64-unknown-linux-musl; sudo chmod a+x /usr/local/bin/websocat)
 
 	@echo Check configuration.
