@@ -66,7 +66,6 @@ setup:
 	make generateCA
 
 build-images:
-	docker compose build ${Sfeed} \
 	GOINSECURE=${GOINSECURE} \
 	NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED} \
 	DOMAIN=${DOMAIN} \
@@ -75,7 +74,8 @@ build-images:
 	FEEDGEN_EMAIL=${FEEDGEN_EMAIL} \
 	FEEDGEN_PUBLISHER_PASSWORD=${FEEDGEN_PUBLISHER_PASSWORD} \
 	FEEDGEN_PUBLISHER_DID=${FEEDGEN_PUBLISHER_DID} \
-	feedgenFQDN=${feedgenFQDN}
+	feedgenFQDN=${feedgenFQDN} \
+	docker compose build ${Sfeed} 
 
 deploy:
 	make docker-start-bsky-feedgen
