@@ -1,9 +1,4 @@
 # Makefile
-ifneq ("$(wildcard .makeenv)","")
-  include .makeenv
-  export
-endif
-
 DOMAIN ?=repsky.unify.mx
 feedgenFQDN   ?=feed-generator.${DOMAIN}
 
@@ -41,6 +36,9 @@ include ops/git.mk
 include ops/certs.mk
 include ops/docker.mk
 include ops/patch.mk
+
+export DOMAIN GOINSECURE NODE_TLS_REJECT_UNAUTHORIZED EMAIL4CERTS
+export FEEDGEN_PUBLISHER_HANDLE FEEDGEN_EMAIL FEEDGEN_PUBLISHER_PASSWORD FEEDGEN_PUBLISHER_DID feedgenFQDN
 
 .PHONY: setupdir genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig start build-images deploy publishFeedEnv
 
