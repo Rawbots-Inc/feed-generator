@@ -70,7 +70,7 @@ setup:
 	make generateCA
 
 start:
-	docker compose up ${Sdep}
+	make docker-start
 
 build-images:
 	docker compose build ${Sfeed} 
