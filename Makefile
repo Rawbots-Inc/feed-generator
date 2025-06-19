@@ -17,8 +17,8 @@ FEEDGEN_PUBLISHER_DID ?=
 GOINSECURE :=${DOMAIN},*.${DOMAIN}
 NODE_TLS_REJECT_UNAUTHORIZED :=0
 
-Sdep  ?=caddy caddy-sidecar
-Sfeed ?=feed-generator
+Sdep  ?= 
+Sfeed ?=caddy-sidecar caddy feed-generator
 
 wDir ?=${PWD}
 
@@ -75,7 +75,6 @@ build-images:
 	docker compose build ${Sfeed}
 
 deploy:
-	make docker-start
 	make docker-start-bsky-feedgen
 
 # Copy community.env to .env
