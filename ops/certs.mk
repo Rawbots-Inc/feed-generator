@@ -23,6 +23,4 @@ installCAcert:
 	@echo "install self-signed CA certificate into this machine..."
 	sudo cp -p ${wDir}/certs/root.crt /usr/local/share/ca-certificates/ca-caddy.crt
 	sudo update-ca-certificates
-
-${wDir}/certs/ca-certificates.crt:
-	cp -p /etc/ssl/certs/ca-certificates.crt $@
+	sudo cp -p /etc/ssl/certs/ca-certificates.crt ${wDir}/certs/ca-certificates.crt
