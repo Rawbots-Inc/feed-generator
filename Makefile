@@ -37,7 +37,7 @@ include ops/certs.mk
 include ops/docker.mk
 include ops/patch.mk
 
-.PHONY: genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig publishFeed
+.PHONY: genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig build deploy publishFeed
 
 genSecrets: ${passfile}
 ${passfile}: ./config/gen-secrets.sh
@@ -62,6 +62,9 @@ generateCA:
 setup:
 	make generateSecrets
 	make generateCA
+
+build:
+	docker compose build ${Sfeed}
 
 deploy:
 	make docker-start-bsky-feedgen
