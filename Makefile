@@ -1,14 +1,18 @@
 # Makefile
+ifneq ("$(wildcard .makeenv)","")
+  include .makeenv
+  export
+endif
 
 DOMAIN ?=repsky.unify.mx
-EMAIL4CERTS ?=rawbotsteam@gmail.com
-
 feedgenFQDN   ?=feed-generator.${DOMAIN}
 
-FEEDGEN_PUBLISHER_HANDLE ?=rsky.ai
-FEEDGEN_EMAIL ?=rawbotsteam@gmail.com
-FEEDGEN_PUBLISHER_PASSWORD ?=123456a@A
-FEEDGEN_PUBLISHER_DID ?=did:plc:4ah7wr6kehwauzdftnfnprse
+EMAIL4CERTS ?=
+
+FEEDGEN_PUBLISHER_HANDLE ?=
+FEEDGEN_EMAIL ?=
+FEEDGEN_PUBLISHER_PASSWORD ?=
+FEEDGEN_PUBLISHER_DID ?=
 
 GOINSECURE :=${DOMAIN},*.${DOMAIN}
 NODE_TLS_REJECT_UNAUTHORIZED :=0
@@ -63,7 +67,7 @@ setup:
 	make generateSecrets
 	make generateCA
 
-build:
+build-images:
 	docker compose build ${Sfeed}
 
 deploy:
