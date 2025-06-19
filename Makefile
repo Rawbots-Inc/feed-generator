@@ -12,7 +12,7 @@ GOINSECURE :=${DOMAIN},*.${DOMAIN}
 NODE_TLS_REJECT_UNAUTHORIZED :=0
 
 Sdep  ?=caddy caddy-sidecar database redis test-wss test-ws
-Sfeed ?=feed-generator
+Sfeed ?=caddy caddy-sidecar feed-generator
 
 wDir ?=${PWD}
 
@@ -68,7 +68,8 @@ setup:
 build-images:
 	docker compose build ${Sfeed}
 
-deploy: echo docker-start docker-start-bsky-feedgen
+deploy:
+	make docker-start-bsky-feedgen
 
 # Copy community.env to .env
 communityConfig:
