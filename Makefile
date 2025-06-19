@@ -32,6 +32,8 @@ passfile ?=${wDir}/config/secrets-passwords.env
 # docker-compose file
 f ?=${wDir}/docker-compose.yaml
 
+docker_network ?= bsky_${DOMAIN}
+
 include ops/git.mk
 include ops/certs.mk
 include ops/docker.mk
@@ -39,7 +41,7 @@ include ops/patch.mk
 
 export DOMAIN GOINSECURE NODE_TLS_REJECT_UNAUTHORIZED EMAIL4CERTS
 export FEEDGEN_PUBLISHER_HANDLE FEEDGEN_EMAIL FEEDGEN_PUBLISHER_PASSWORD FEEDGEN_PUBLISHER_DID feedgenFQDN
-
+export docker_network
 .PHONY: setupdir genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig start build-images deploy publishFeedEnv
 
 setupdir:
