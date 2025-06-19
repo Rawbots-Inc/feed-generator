@@ -13,6 +13,8 @@ FEEDGEN_PUBLISHER_DID ?=did:plc:4ah7wr6kehwauzdftnfnprse
 GOINSECURE :=${DOMAIN},*.${DOMAIN}
 NODE_TLS_REJECT_UNAUTHORIZED :=0
 
+Sfeed ?=caddy caddy-sidecar feed-generator
+
 wDir ?=${PWD}
 
 # data folder to persist container's into filesystem
