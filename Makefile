@@ -35,16 +35,19 @@ include ops/certs.mk
 include ops/docker.mk
 include ops/patch.mk
 
-.PHONY: generateSecrets generateCA setup communityConfig communityVideoConfig publishFeed
+.PHONY: genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig publishFeed
+
+genSecrets: ${passfile}
+${passfile}: ./config/gen-secrets.sh
+	wDir=${wDir} ./config/gen-secrets.sh > $@
+	cat $@
+	@echo "secrets generated and stored in $@"
 
 generateSecrets:
 	@echo "Generating secrets"
 	@echo Install required tools if missing.
 	apt install -y make pwgen
 	(sudo curl -o /usr/local/bin/websocat -L https://github.com/vi/websocat/releases/download/v1.13.0/websocat.x86_64-unknown-linux-musl; sudo chmod a+x /usr/local/bin/websocat)
-
-	@echo Check configuration.
-	make echo
 
 	@echo Generate and check container secrets.
 	make genSecrets
