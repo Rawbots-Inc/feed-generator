@@ -41,7 +41,7 @@ include ops/certs.mk
 include ops/docker.mk
 include ops/patch.mk
 
-.PHONY: genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig build deploy publishFeed
+.PHONY: genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig build-images deploy publishFeedEnv
 
 genSecrets: ${passfile}
 ${passfile}: ./config/gen-secrets.sh
