@@ -63,6 +63,9 @@ setup:
 	make generateSecrets
 	make generateCA
 
+deploy:
+	make docker-start-bsky-feedgen
+
 # Copy community.env to .env
 communityConfig:
 	@echo "Copying community.env → .env"
