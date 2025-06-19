@@ -115,7 +115,7 @@ services:
       - FEEDGEN_SERVICE_DID=did:web:feed-generator.rsky.ai
       - FEEDGEN_SQLITE_LOCATION=/data/db.sqlite
       - FEEDGEN_PLC_URL=https://plc.rsky.ai
-      - FEEDGEN_SUBSCRIPTION_ENDPOINT="wss://bsky.network"
+      - FEEDGEN_SUBSCRIPTION_ENDPOINT=wss://bsky.network
       - FEEDGEN_SUBSCRIPTION_RECONNECT_DELAY=3000
       - GOINSECURE=rsky.ai,*.rsky.ai
       - NODE_ENV=production
