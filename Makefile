@@ -1,5 +1,5 @@
 # Makefile
-DOMAIN ?=rsky.ai
+DOMAIN ?=repsky.unify.mx
 feedgenFQDN   ?=feed-generator.${DOMAIN}
 
 EMAIL4CERTS ?=rawbotsteam@gmail.com
