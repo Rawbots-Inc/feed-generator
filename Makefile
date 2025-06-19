@@ -72,6 +72,6 @@ communityVideoConfig:
 	cp feeds_config/community_video.env .env
 
 # Run the feed publisher script
-publishFeed:
+publishFeedEnv:
 	@echo "Running publishFeedGen.ts"
 	npx tsx scripts/publishFeedGen.ts
