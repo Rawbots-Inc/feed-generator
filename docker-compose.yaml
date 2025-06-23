@@ -29,7 +29,7 @@ services:
       - GOINSECURE=repsky.unify.mx,*.repsky.unify.mx
       - NODE_TLS_REJECT_UNAUTHORIZED=0
       - DOMAIN=repsky.unify.mx
-      - EMAIL4CERTS=rawbotsteam@gmail.com
+      - EMAIL4CERTS=thanhbpc.dev@gmail.com
       - BSKY_ADMIN_PASSWORDS=ADMINPASSWORD
     volumes:
       - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
