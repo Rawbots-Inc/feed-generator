@@ -7,7 +7,7 @@ EMAIL4CERTS ?=thanhbpc.dev@gmail.com
 FEEDGEN_PUBLISHER_HANDLE ?=repsky.unify.mx
 FEEDGEN_EMAIL ?=thanhbpc.dev@gmail.com
 FEEDGEN_PUBLISHER_PASSWORD ?=123456a@A
-FEEDGEN_PUBLISHER_DID ?=did:plc:3A62sygyqvpetbfz57ebmwvql4
+FEEDGEN_PUBLISHER_DID ?=did:plc:62sygyqvpetbfz57ebmwvql4
 GOINSECURE :=${DOMAIN},*.${DOMAIN}
 NODE_TLS_REJECT_UNAUTHORIZED :=0
 
