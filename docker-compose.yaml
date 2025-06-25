@@ -39,11 +39,11 @@ services:
       # CA certificates for self-signed. <<<
       - caddy-data:/data
       - caddy-config:/config
-    healthcheck:
-      # https://caddy.community/t/what-is-the-best-practise-for-doing-a-health-check-for-caddy-containers/12995
-      test: ["CMD-SHELL", "curl -sf http://localhost:2019/config/ > /dev/null || exit 1"]
-      interval: 5s
-      retries: 20
+    # healthcheck:
+    #   # https://caddy.community/t/what-is-the-best-practise-for-doing-a-health-check-for-caddy-containers/12995
+    #   test: ["CMD-SHELL", "curl -sf http://localhost:2019/config/ > /dev/null || exit 1"]
+    #   interval: 5s
+    #   retries: 20
 
 # to generate HTTPS certifications on-demand >>>>>
   caddy-sidecar:
