@@ -44,6 +44,8 @@ services:
       test: "wget --no-verbose --tries=1 --spider http://localhost:2019/metrics || exit 1"
       interval: 5s
       retries: 20
+    networks:
+      - default
 
 # to generate HTTPS certifications on-demand >>>>>
   caddy-sidecar:
@@ -128,3 +130,5 @@ services:
       # supporting self-signed certificates, easiest way <<<<
       - feed-generator:/data/
 #     - ${rDir}/feed-generator:/app
+    networks:
+      - default
