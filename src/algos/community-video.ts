@@ -4,7 +4,7 @@ import { AppContext } from '../config'
 import { decodeCursor } from '../util/helpers'
 import { sql } from 'kysely'
 
-export const shortname = 'community-video'
+export const shortname = 'community-video-dev'
 
 export const handler = async (ctx: AppContext, params: QueryParams) => {
   console.log(

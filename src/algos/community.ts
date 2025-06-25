@@ -3,7 +3,7 @@ import { AppContext } from '../config'
 
 import { decodeCursor } from '../util/helpers'
 
-export const shortname = 'community'
+export const shortname = 'community-dev'
 
 export const handler = async (ctx: AppContext, params: QueryParams) => {
   console.log(
