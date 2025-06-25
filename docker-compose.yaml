@@ -41,7 +41,7 @@ services:
       - caddy-config:/config
     healthcheck:
       # https://caddy.community/t/what-is-the-best-practise-for-doing-a-health-check-for-caddy-containers/12995
-      test: "wget --no-verbose --tries=1 --spider http://localhost:2019/metrics || exit 1"
+      test: ["CMD-SHELL", "curl -sf http://localhost:2019/config/ > /dev/null || exit 1"]
       interval: 5s
       retries: 20
 
