@@ -95,6 +95,7 @@ services:
     restart: always
 
   feed-generator:
+    container_name: feed-generator
     image: bluesky-feed-generator:latest
     profiles: ['', 'feed-generator']
     build:
