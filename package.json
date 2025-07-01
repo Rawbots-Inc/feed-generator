@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "description": "atproto feed generator starter kit",
   "main": "index.js",
-  "type": "module",
   "repository": "git@github.com:bluesky-social/feed-generator.git",
   "author": "dholms <dtholmgren@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "publishFeed": "npx tsx scripts/publishFeedGen.ts",
-    "unpublishFeed": "npx tsx scripts/unpublishFeedGen.ts",
-    "start": "npx tsx src/index.ts",
+    "publishFeed": "ts-node scripts/publishFeedGen.ts",
+    "unpublishFeed": "ts-node scripts/unpublishFeedGen.ts",
+    "start": "ts-node src/index.ts",
     "build": "tsc"
   },
   "dependencies": {
@@ -24,7 +23,7 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "kysely": "^0.28.2",
-    "multiformats": "^13.3.2"
+    "multiformats": "^9.9.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",

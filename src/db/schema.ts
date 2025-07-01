@@ -9,7 +9,7 @@ export type Post = {
   uri: string
   cid: string
   indexedAt: string
-  embed: RecordEmbed
+  embed: string | null
   community: string
 }
 
