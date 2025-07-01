@@ -29,6 +29,9 @@ migrations['001'] = {
   },
 }
 
+/**
+ * 002: Add `embed` column to `post` table
+ */
 migrations['002'] = {
   async up(db: Kysely<unknown>) {
     await db.schema
@@ -40,6 +43,44 @@ migrations['002'] = {
     await db.schema
       .alterTable('post')
       .dropColumn('embed')
+      .execute()
+  },
+}
+
+/**
+ * 003: Add `author` column to `post` table
+ */
+migrations['003'] = {
+  async up(db: Kysely<unknown>) {
+    await db.schema
+      .alterTable('post')
+      .addColumn('author', 'varchar', (col) => col.notNull().defaultTo(''))
+      .execute()
+  },
+  async down(db: Kysely<unknown>) {
+    await db.schema
+      .alterTable('post')
+      .dropColumn('author')
+      .execute()
+  },
+}
+
+/**
+ * 005: Create `follows` table
+ */
+migrations['004'] = {
+  async up(db: Kysely<unknown>) {
+    await db.schema
+      .createTable('follows')
+      .addColumn('id', 'varchar', (col) => col.primaryKey())
+      .addColumn('follower', 'varchar', (col) => col.notNull())
+      .addColumn('followed', 'varchar', (col) => col.notNull())
+      .addColumn('createdAt', 'varchar', (col) => col.notNull())
+      .execute()
+  },
+  async down(db: Kysely<unknown>) {
+    await db.schema
+      .dropTable('follows')
       .execute()
   },
 }

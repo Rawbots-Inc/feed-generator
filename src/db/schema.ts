@@ -1,17 +1,56 @@
-import type { Main as RecordEmbed } from '../lexicon/types/app/bsky/embed/record'
 
 export type DatabaseSchema = {
-  post: Post
-  sub_state: SubState
-}
+  post: Post;
+  sub_state: SubState;
+  follows: Follow;
+};
 
 export type Post = {
+  /**
+   * CID of the author
+   */
+  author: string
+  /**
+   * URI of the post
+   */
   uri: string
+  /**
+   * CID of the post
+   */
   cid: string
+  /**
+   * When the post was indexed by the app view
+   */
   indexedAt: string
+  /**
+   * Embed of the post
+   */
   embed: string | null
+  /**
+   * Community of the post
+   */
   community: string
 }
+
+
+export type Follow = {
+  /**
+   * rKey of the follow
+   */
+  id: string;
+  /**
+   * The account doing the following
+   */
+  follower: string;
+  /**
+   * The account being followed
+   */
+  followed: string;
+  /**
+   * When the follow was created
+   */
+  createdAt: string;
+};
 
 export type SubState = {
   service: string
