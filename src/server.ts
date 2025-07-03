@@ -10,18 +10,20 @@ import { FirehoseSubscription } from './subscription'
 import { AppContext, Config } from './config'
 import wellKnown from './well-known'
 import { schemas } from './lexicon/lexicons'
+import { Jetstream } from '@skyware/jetstream'
+import { jetstream } from './firehose'
 
 export class FeedGenerator {
   public app: express.Application
   public server?: http.Server
   public db: Database
-  public firehose: FirehoseSubscription
+  public firehose: Jetstream
   public cfg: Config
 
   constructor(
     app: express.Application,
     db: Database,
-    firehose: FirehoseSubscription,
+    firehose: Jetstream,
     cfg: Config,
   ) {
     this.app = app
@@ -33,7 +35,8 @@ export class FeedGenerator {
   static create(cfg: Config) {
     const app = express()
     const db = createDb(cfg.sqliteLocation)
-    const firehose = new FirehoseSubscription(db, cfg.subscriptionEndpoint)
+    // const firehose = new FirehoseSubscription(db, cfg.subscriptionEndpoint)
+    const firehose = jetstream
 
     const didCache = new MemoryCache()
     const didResolver = new DidResolver({
@@ -63,7 +66,8 @@ export class FeedGenerator {
 
   async start(): Promise<http.Server> {
     await migrateToLatest(this.db)
-    this.firehose.run(Number(this.cfg.subscriptionReconnectDelay))
+    // this.firehose.run(Number(this.cfg.subscriptionReconnectDelay))
+    this.firehose.start()
     this.server = this.app.listen(Number(this.cfg.port), this.cfg.listenhost)
     await events.once(this.server, 'listening')
     return this.server

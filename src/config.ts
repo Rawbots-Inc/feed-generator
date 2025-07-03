@@ -2,6 +2,7 @@ import { Database } from './db'
 import { DidResolver } from '@atproto/identity'
 
 export const config = {
+  envType: process.env.ENV_TYPE || 'dev',
   hostname: process.env.FEEDGEN_HOSTNAME || 'example.com',
   serviceDid: process.env.FEEDGEN_SERVICE_DID || `did:web:${process.env.FEEDGEN_HOSTNAME}`,
   listenhost: process.env.FEEDGEN_LISTENHOST || '0.0.0.0',

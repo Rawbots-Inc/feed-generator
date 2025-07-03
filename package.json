@@ -19,13 +19,18 @@
     "@atproto/repo": "^0.8.0",
     "@atproto/syntax": "^0.4.0",
     "@atproto/xrpc-server": "^0.7.17",
+    "@hono/node-server": "^1.15.0",
+    "@skyware/jetstream": "^0.2.2",
+    "@atcute/bluesky": "^2.0.3",
     "better-sqlite3": "^11.9.1",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "hono": "^4.8.3",
     "kysely": "^0.28.2",
     "multiformats": "^9.9.0"
   },
   "devDependencies": {
+    "@atcute/client": "^3.0.1",
     "@types/better-sqlite3": "^7.6.13",
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.3",
