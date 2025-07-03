@@ -109,3 +109,20 @@ migrations['005'] = {
     await db.schema.dropIndex('idx_follows_follower').execute()
   },
 }
+
+/**
+ * 006: Create `active_users` table
+ */
+migrations['006'] = {
+  async up(db: Kysely<unknown>) {
+    await db.schema
+      .createTable('active_users')
+      .addColumn('did', 'varchar', (col) => col.primaryKey())
+      .addColumn('firstSeen', 'varchar', (col) => col.notNull())
+      .execute()
+  },
+
+  async down(db: Kysely<unknown>) {
+    await db.schema.dropTable('active_users').execute()
+  },
+}

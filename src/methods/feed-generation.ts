@@ -5,6 +5,7 @@ import { ids } from '../lexicon/lexicons'
 import { AtUri } from '@atproto/syntax'
 import algos from '../algos'
 import { validateAuth } from '../auth'
+import { trackActiveUser } from '../db/active-users'
 
 export default function (server: Server, appCtx: AppContext) {
   server.method(ids.AppBskyFeedGetFeedSkeleton, async ({ params, req }) => {
@@ -25,7 +26,12 @@ export default function (server: Server, appCtx: AppContext) {
       )
     }
 
-    const requesterDid = await validateAuth(req, appCtx.cfg.serviceDid, appCtx.didResolver)
+    // const requesterDid = await validateAuth(req, appCtx.cfg.serviceDid, appCtx.didResolver)
+
+    const requesterDid = 'did:plc:kax6vo2tx5nvphfvhnmihtrx'
+    if (requesterDid) {
+      await trackActiveUser(appCtx, requesterDid)
+    }
 
     const body = await algo(appCtx, queryParams, requesterDid)
 

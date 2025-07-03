@@ -3,6 +3,7 @@ export type DatabaseSchema = {
   post: Post;
   sub_state: SubState;
   follows: Follow;
+  active_users: ActiveUser
 };
 
 export type Post = {
@@ -55,4 +56,17 @@ export type Follow = {
 export type SubState = {
   service: string
   cursor: number
+}
+
+
+export type ActiveUser = {
+  /**
+   * user DID call rsky feed
+   */
+  did: string
+
+  /**
+   * createdAt
+   */
+  firstSeen: string
 }

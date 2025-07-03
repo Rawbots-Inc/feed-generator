@@ -46,14 +46,27 @@ jetstream.onDelete(ids.AppBskyFeedPost, async (event) => {
 });
 
 
-
 jetstream.onCreate(ids.AppBskyGraphFollow, async (event) => {
+    const followerDid = event.did
+
+    const isActive = await db
+        .selectFrom('active_users')
+        .select('did')
+        .where('did', '=', followerDid)
+        .executeTakeFirst()
+
+    if (!isActive) {
+        return
+    }
+
+    const followedDid = (event.commit.record as any).subject
+
     await db
         .insertInto('follows')
         .values({
             id: event.commit.rkey,
-            follower: event.did,
-            followed: (event.commit.record as any).subject,
+            follower: followerDid,
+            followed: followedDid,
             createdAt: new Date().toISOString(),
         })
         .onConflict((oc) => oc.doNothing())
