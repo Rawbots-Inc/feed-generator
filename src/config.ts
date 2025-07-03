@@ -1,3 +1,4 @@
+import AtpAgent from '@atproto/api';
 import { Database } from './db'
 import { DidResolver } from '@atproto/identity'
 
@@ -11,11 +12,14 @@ export const config = {
   publisherDid: process.env.FEEDGEN_PUBLISHER_DID || 'did:example:alice',
   subscriptionEndpoint: process.env.FEEDGEN_SUBSCRIPTION_ENDPOINT || 'wss://bsky.network',
   subscriptionReconnectDelay: process.env.FEEDGEN_SUBSCRIPTION_RECONNECT_DELAY || 3000,
+  bskyHandle: process.env.BSKY_HANDLE,
+  bskyPw: process.env.BSKY_PASSWORD,
 };
 
 export type Config = typeof config;
 
 export type AppContext = {
+  agent: AtpAgent,
   db: Database
   didResolver: DidResolver
   cfg: Config

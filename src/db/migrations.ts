@@ -66,7 +66,7 @@ migrations['003'] = {
 }
 
 /**
- * 005: Create `follows` table
+ * 004: Create `follows` table
  */
 migrations['004'] = {
   async up(db: Kysely<unknown>) {
@@ -82,5 +82,30 @@ migrations['004'] = {
     await db.schema
       .dropTable('follows')
       .execute()
+  },
+}
+
+
+/**
+ * 005: Add indexes for feed performance
+ */
+migrations['005'] = {
+  async up(db: Kysely<unknown>) {
+    await db.schema
+      .createIndex('idx_follows_follower')
+      .on('follows')
+      .column('follower')
+      .execute()
+
+    await db.schema
+      .createIndex('idx_post_author')
+      .on('post')
+      .column('author')
+      .execute()
+  },
+
+  async down(db: Kysely<unknown>) {
+    await db.schema.dropIndex('idx_post_author').execute()
+    await db.schema.dropIndex('idx_follows_follower').execute()
   },
 }

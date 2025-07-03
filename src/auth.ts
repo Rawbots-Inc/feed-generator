@@ -6,10 +6,10 @@ export const validateAuth = async (
   req: express.Request,
   serviceDid: string,
   didResolver: DidResolver,
-): Promise<string> => {
+): Promise<string | undefined> => {
   const { authorization = '' } = req.headers
   if (!authorization.startsWith('Bearer ')) {
-    throw new AuthRequiredError()
+    return undefined
   }
   const jwt = authorization.replace('Bearer ', '').trim()
   const nsid = parseReqNsid(req)

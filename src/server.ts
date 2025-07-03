@@ -5,13 +5,20 @@ import { DidResolver, MemoryCache } from '@atproto/identity'
 import { createServer } from '@atproto/xrpc-server'
 import feedGeneration from './methods/feed-generation'
 import describeGenerator from './methods/describe-generator'
-import { createDb, Database, migrateToLatest } from './db'
-import { FirehoseSubscription } from './subscription'
-import { AppContext, Config } from './config'
+import { Database, db, migrateToLatest } from './db'
+import { AppContext, config, Config } from './config'
 import wellKnown from './well-known'
 import { schemas } from './lexicon/lexicons'
 import { Jetstream } from '@skyware/jetstream'
 import { jetstream } from './firehose'
+import AtpAgent from '@atproto/api'
+
+
+const didCache = new MemoryCache()
+export const didResolver = new DidResolver({
+  plcUrl: 'https://plc.directory',
+  didCache,
+})
 
 export class FeedGenerator {
   public app: express.Application
@@ -32,17 +39,10 @@ export class FeedGenerator {
     this.cfg = cfg
   }
 
-  static create(cfg: Config) {
+  static async create(cfg: Config) {
     const app = express()
-    const db = createDb(cfg.sqliteLocation)
     // const firehose = new FirehoseSubscription(db, cfg.subscriptionEndpoint)
     const firehose = jetstream
-
-    const didCache = new MemoryCache()
-    const didResolver = new DidResolver({
-      plcUrl: 'https://plc.directory',
-      didCache,
-    })
 
     const server = createServer(schemas, {
       payload: {
@@ -51,7 +51,13 @@ export class FeedGenerator {
         blobLimit: 5 * 1024 * 1024, // 5mb
       },
     })
+    const agent = new AtpAgent({ service: 'https://bsky.social' })
+    await agent.login({
+      identifier: config.bskyHandle!,
+      password: config.bskyPw!
+    })
     const ctx: AppContext = {
+      agent,
       db,
       didResolver,
       cfg,

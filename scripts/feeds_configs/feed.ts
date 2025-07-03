@@ -21,4 +21,11 @@ export const feeds: Feed[] = [
         avatarPath: 'src/avatar/community_video.png',
         videoOnly: true,
     },
+    {
+        name: 'following',
+        displayName: "Following",
+        description: "",
+        avatarPath: "src/avatar/community.png",
+        videoOnly: false,
+    }
 ]
