@@ -107,19 +107,21 @@ services:
        - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     ports:
       - 2586:3000
-    environment:
-      - FEEDGEN_HOSTNAME=feed-generator.repsky.unify.mx
-      - FEEDGEN_LISTENHOST=0.0.0.0
-      - FEEDGEN_PORT=3000
-      - FEEDGEN_PUBLISHER_DID=did:plc:3A62sygyqvpetbfz57ebmwvql4
-      - FEEDGEN_SERVICE_DID=did:web:feed-generator.repsky.unify.mx
-      - FEEDGEN_SQLITE_LOCATION=/data/db.sqlite
-      - FEEDGEN_PLC_URL=https://plc.repsky.unify.mx
-      - FEEDGEN_SUBSCRIPTION_ENDPOINT=wss://bsky.network
-      - FEEDGEN_SUBSCRIPTION_RECONNECT_DELAY=3000
-      - GOINSECURE=repsky.unify.mx,*.repsky.unify.mx
-      - NODE_ENV=production
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    env_file: .env
+    # environment:
+    #   - FEEDGEN_HOSTNAME=feed-generator.repsky.unify.mx
+    #   - FEEDGEN_LISTENHOST=0.0.0.0
+    #   - FEEDGEN_PORT=3000
+    #   - FEEDGEN_PUBLISHER_DID=did:plc:3A62sygyqvpetbfz57ebmwvql4
+    #   - FEEDGEN_SERVICE_DID=did:web:feed-generator.repsky.unify.mx
+    #   - FEEDGEN_SQLITE_LOCATION=/data/db.sqlite
+    #   - FEEDGEN_PLC_URL=https://plc.repsky.unify.mx
+    #   - FEEDGEN_SUBSCRIPTION_ENDPOINT=wss://bsky.network
+    #   - FEEDGEN_SUBSCRIPTION_RECONNECT_DELAY=3000
+    #   - GOINSECURE=repsky.unify.mx,*.repsky.unify.mx
+    #   - ENV_TYPE
+    #   - NODE_ENV=production
+    #   - NODE_TLS_REJECT_UNAUTHORIZED=0
     restart: always
     volumes:
       # supporting self-signed certificates, easiest way >>>>
