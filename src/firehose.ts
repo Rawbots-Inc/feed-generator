@@ -5,7 +5,7 @@ import { postUri } from './util/helpers';
 import { config } from './config';
 export const jetstream = new Jetstream({
     // ws: new WebSocket('wss://jetstream1.us-west.bsky.network/subscribe'),
-    endpoint: 'wss://jetstream1.us-west.bsky.network/subscribe',
+    endpoint: 'wss://jetstream2.us-west.bsky.network/subscribe',
     wantedCollections: [
         ids.AppBskyFeedPost,
         ids.AppBskyGraphFollow,
@@ -48,20 +48,18 @@ jetstream.onDelete(ids.AppBskyFeedPost, async (event) => {
 
 
 jetstream.onCreate(ids.AppBskyGraphFollow, async (event) => {
-    // console.log('Follow event', event);
-    // await db
-    //     .insertInto('follows')
-    //     .values({
-    //         id: event.commit.rkey,
-    //         follower: event.did,
-    //         followed: event.commit.record.subject,
-    //         createdAt: new Date().toISOString(),
-    //     })
-    //     .onConflict((oc) => oc.doNothing())
-    //     .execute();
+    await db
+        .insertInto('follows')
+        .values({
+            id: event.commit.rkey,
+            follower: event.did,
+            followed: (event.commit.record as any).subject,
+            createdAt: new Date().toISOString(),
+        })
+        .onConflict((oc) => oc.doNothing())
+        .execute();
 });
 
 jetstream.onDelete(ids.AppBskyGraphFollow, async (event) => {
-    // console.log('Follow delete event', event);
-    // await db.deleteFrom('follows').where('id', '=', event.commit.rkey).execute();
+    await db.deleteFrom('follows').where('id', '=', event.commit.rkey).execute();
 });
