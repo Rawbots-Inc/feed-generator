@@ -26,9 +26,8 @@ export default function (server: Server, appCtx: AppContext) {
       )
     }
 
-    // const requesterDid = await validateAuth(req, appCtx.cfg.serviceDid, appCtx.didResolver)
+    const requesterDid = await validateAuth(req, appCtx.cfg.serviceDid, appCtx.didResolver)
 
-    const requesterDid = 'did:plc:kax6vo2tx5nvphfvhnmihtrx'
     if (requesterDid) {
       await trackActiveUser(appCtx, requesterDid)
     }
