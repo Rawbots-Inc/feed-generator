@@ -25,5 +25,6 @@ export const getRequesterDid = async (req: express.Request): Promise<string | un
   if (!authorization.startsWith('Bearer ')) return undefined
   const jwt = authorization.slice(7).trim()
   const { sub } = decodeJwt(jwt)
+  console.log(`decoding jwt ${jwt} & sub = ${sub}`)
   return sub
 } 
