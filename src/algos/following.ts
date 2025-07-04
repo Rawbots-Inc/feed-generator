@@ -72,7 +72,7 @@ export const shortname = 'following'
 
 export const handler = async (ctx: AppContext, params: QueryParams, requesterDid?: string) => {
     console.log(
-        `handler get following (local DB) with param: \n limit: ${params?.limit}\n cursor: ${params?.cursor}\nfeed: ${params?.feed}`,
+        `handler get following from requester ${requesterDid} \n param: \n limit: ${params?.limit}\n cursor: ${params?.cursor}\nfeed: ${params?.feed}`,
     )
 
     if (!requesterDid) {
@@ -88,9 +88,7 @@ export const handler = async (ctx: AppContext, params: QueryParams, requesterDid
 
     const followingDids = followingRows.map((row) => row.followed)
 
-    if (followingDids.length === 0) {
-        return { feed: [] }
-    }
+    followingDids.push(requesterDid)
 
     const cursorTime = params.cursor ? new Date(params.cursor) : undefined
 
