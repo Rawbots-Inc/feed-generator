@@ -1,4 +1,4 @@
-import AtpAgent, { AtUri } from '@atproto/api'
+import { Agent, AtUri } from '@atproto/api'
 import { db } from './index'
 import { ids } from '../lexicon/lexicons'
 import { AppContext } from '../config'
@@ -26,7 +26,7 @@ export async function trackActiveUser(ctx: AppContext, did: string) {
 
 }
 
-async function seedFollowsForUser(agent: AtpAgent, did: string) {
+async function seedFollowsForUser(agent: Agent, did: string) {
     const pageSize = 100
     let cursor: string | undefined = undefined
 

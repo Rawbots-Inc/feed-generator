@@ -1,4 +1,4 @@
-import AtpAgent from '@atproto/api';
+import { Agent } from '@atproto/api';
 import { Database } from './db'
 import { DidResolver } from '@atproto/identity'
 
@@ -19,7 +19,7 @@ export const config = {
 export type Config = typeof config;
 
 export type AppContext = {
-  agent: AtpAgent,
+  agent: Agent,
   db: Database
   didResolver: DidResolver
   cfg: Config

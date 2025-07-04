@@ -4,7 +4,7 @@ import { QueryParams } from '../lexicon/types/app/bsky/feed/getFeedSkeleton'
 import { ids } from '../lexicon/lexicons'
 import { AtUri } from '@atproto/syntax'
 import algos from '../algos'
-import { validateAuth } from '../auth'
+import { getRequesterDid, validateAuth } from '../auth'
 import { trackActiveUser } from '../db/active-users'
 
 export default function (server: Server, appCtx: AppContext) {
@@ -26,7 +26,9 @@ export default function (server: Server, appCtx: AppContext) {
       )
     }
 
-    const requesterDid = await validateAuth(req, appCtx.cfg.serviceDid, appCtx.didResolver)
+    // const requesterDid = await validateAuth(req, appCtx.cfg.serviceDid, appCtx.didResolver)
+
+    const requesterDid = await getRequesterDid(req)
 
     if (requesterDid) {
       await trackActiveUser(appCtx, requesterDid)

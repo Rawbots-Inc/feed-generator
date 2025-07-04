@@ -11,7 +11,7 @@ import wellKnown from './well-known'
 import { schemas } from './lexicon/lexicons'
 import { Jetstream } from '@skyware/jetstream'
 import { jetstream } from './firehose'
-import AtpAgent from '@atproto/api'
+import AtpAgent, { Agent, BskyAgent, CredentialSession } from '@atproto/api'
 
 
 const didCache = new MemoryCache()
@@ -51,11 +51,14 @@ export class FeedGenerator {
         blobLimit: 5 * 1024 * 1024, // 5mb
       },
     })
-    const agent = new AtpAgent({ service: 'https://bsky.social' })
-    await agent.login({
-      identifier: config.bskyHandle!,
-      password: config.bskyPw!
-    })
+    const serviceUrl = new URL('https://bsky.social')
+    const ss = new CredentialSession(serviceUrl)
+    // await ss.login({
+    //   identifier: config.bskyHandle!,
+    //   password: config.bskyPw!
+    // })
+
+    const agent = new Agent(ss)
     const ctx: AppContext = {
       agent,
       db,
