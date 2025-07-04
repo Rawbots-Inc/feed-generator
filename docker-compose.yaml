@@ -14,7 +14,7 @@ volumes:
 
 networks:
  default:
-    name: bsky_rsky.ai
+    name: bsky_repsky.unify.mx
     external: true
  
 services:
@@ -26,10 +26,10 @@ services:
       - 443:443/udp
       - 9000:9000
     environment:
-      - GOINSECURE=rsky.ai,*.rsky.ai
+      - GOINSECURE=repsky.unify.mx,*.repsky.unify.mx
       - NODE_TLS_REJECT_UNAUTHORIZED=0
-      - DOMAIN=rsky.ai
-      - EMAIL4CERTS=rawbotsteam@gmail.com
+      - DOMAIN=repsky.unify.mx
+      - EMAIL4CERTS=thanhbpc.dev@gmail.com
       - BSKY_ADMIN_PASSWORDS=ADMINPASSWORD
     volumes:
       - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
@@ -39,17 +39,17 @@ services:
       # CA certificates for self-signed. <<<
       - caddy-data:/data
       - caddy-config:/config
-    healthcheck:
-      # https://caddy.community/t/what-is-the-best-practise-for-doing-a-health-check-for-caddy-containers/12995
-      test: "wget --no-verbose --tries=1 --spider http://localhost:2019/metrics || exit 1"
-      interval: 5s
-      retries: 20
+    # healthcheck:
+    #   # https://caddy.community/t/what-is-the-best-practise-for-doing-a-health-check-for-caddy-containers/12995
+    #   test: ["CMD-SHELL", "curl -sf http://localhost:2019/config/ > /dev/null || exit 1"]
+    #   interval: 5s
+    #   retries: 20
 
 # to generate HTTPS certifications on-demand >>>>>
   caddy-sidecar:
     image: httpd:2
     environment:
-      - GOINSECURE=rsky.ai,*.rsky.ai
+      - GOINSECURE=repsky.unify.mx,*.repsky.unify.mx
       - NODE_TLS_REJECT_UNAUTHORIZED=0
     volumes:
        - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
@@ -77,7 +77,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      - GOINSECURE=rsky.ai,*.rsky.ai
+      - GOINSECURE=repsky.unify.mx,*.repsky.unify.mx
       - NODE_TLS_REJECT_UNAUTHORIZED=0
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
       - POSTGRES_USER=${POSTGRES_USER}
@@ -107,19 +107,21 @@ services:
        - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     ports:
       - 2586:3000
-    environment:
-      - FEEDGEN_HOSTNAME=feed-generator.rsky.ai
-      - FEEDGEN_LISTENHOST=0.0.0.0
-      - FEEDGEN_PORT=3000
-      - FEEDGEN_PUBLISHER_DID=did:plc:4ah7wr6kehwauzdftnfnprse
-      - FEEDGEN_SERVICE_DID=did:web:feed-generator.rsky.ai
-      - FEEDGEN_SQLITE_LOCATION=/data/db.sqlite
-      - FEEDGEN_PLC_URL=https://plc.rsky.ai
-      - FEEDGEN_SUBSCRIPTION_ENDPOINT=wss://bsky.network
-      - FEEDGEN_SUBSCRIPTION_RECONNECT_DELAY=3000
-      - GOINSECURE=rsky.ai,*.rsky.ai
-      - NODE_ENV=production
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    env_file: .env
+    # environment:
+    #   - FEEDGEN_HOSTNAME=feed-generator.repsky.unify.mx
+    #   - FEEDGEN_LISTENHOST=0.0.0.0
+    #   - FEEDGEN_PORT=3000
+    #   - FEEDGEN_PUBLISHER_DID=did:plc:3A62sygyqvpetbfz57ebmwvql4
+    #   - FEEDGEN_SERVICE_DID=did:web:feed-generator.repsky.unify.mx
+    #   - FEEDGEN_SQLITE_LOCATION=/data/db.sqlite
+    #   - FEEDGEN_PLC_URL=https://plc.repsky.unify.mx
+    #   - FEEDGEN_SUBSCRIPTION_ENDPOINT=wss://bsky.network
+    #   - FEEDGEN_SUBSCRIPTION_RECONNECT_DELAY=3000
+    #   - GOINSECURE=repsky.unify.mx,*.repsky.unify.mx
+    #   - ENV_TYPE
+    #   - NODE_ENV=production
+    #   - NODE_TLS_REJECT_UNAUTHORIZED=0
     restart: always
     volumes:
       # supporting self-signed certificates, easiest way >>>>

@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:23
 
 # install expect to handle inquirer prompt for automation
 RUN apt update; apt install -y expect ; \

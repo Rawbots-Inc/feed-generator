@@ -29,3 +29,8 @@ export function decodeCursor(cursor: string): {
 
   return { timestamp, community, oldCursor }
 }
+
+
+export function postUri(did: string, rkey: string) {
+  return `at://${did}/app.bsky.feed.post/${rkey}`
+}

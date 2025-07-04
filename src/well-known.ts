@@ -6,7 +6,8 @@ const makeRouter = (ctx: AppContext) => {
 
   router.get('/.well-known/did.json', (_req, res) => {
     if (!ctx.cfg.serviceDid.endsWith(ctx.cfg.hostname)) {
-      return res.sendStatus(404)
+      res.sendStatus(404)
+      return
     }
     res.json({
       '@context': ['https://www.w3.org/ns/did/v1'],

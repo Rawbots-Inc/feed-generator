@@ -1,13 +1,13 @@
 # Makefile
-DOMAIN ?=rsky.ai
+DOMAIN ?=repsky.unify.mx
 feedgenFQDN   ?=feed-generator.${DOMAIN}
 
-EMAIL4CERTS ?=rawbotsteam@gmail.com
+EMAIL4CERTS ?=thanhbpc.dev@gmail.com
 
-FEEDGEN_PUBLISHER_HANDLE ?=rsky.ai
-FEEDGEN_EMAIL ?=rawbotsteam@gmail.com
+FEEDGEN_PUBLISHER_HANDLE ?=rskydev.bsky.social
+FEEDGEN_EMAIL ?=cthanh2316@gmail.com
 FEEDGEN_PUBLISHER_PASSWORD ?=123456a@A
-FEEDGEN_PUBLISHER_DID ?=did:plc:4ah7wr6kehwauzdftnfnprse
+FEEDGEN_PUBLISHER_DID ?=did:plc:3A62sygyqvpetbfz57ebmwvql4
 GOINSECURE :=${DOMAIN},*.${DOMAIN}
 NODE_TLS_REJECT_UNAUTHORIZED :=0
 

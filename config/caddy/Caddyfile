@@ -19,7 +19,7 @@
 		method OPTIONS
 	}
 	@corsOrigin {
-		header_regexp Origin ^https?://*.rsky.ai$
+		header_regexp Origin ^https?://*.repsky.unify.mx$
 	}
 
 	handle @cors_preflight {
@@ -49,7 +49,7 @@
 #   accessible as https://ca.DOMAIN:9000/acme/local/directory
 #   cf. https://blog.kurokobo.com/archives/3669#Caddy_acme_server
 #
-ca.rsky.ai:9000 {
+ca.repsky.unify.mx:9000 {
 	tls internal
 	acme_server
 }
@@ -76,43 +76,43 @@ ca.rsky.ai:9000 {
 
 # starts: to check if caddy works as reverse proxy, for HTTP(S) and WS(S) >>>>>>>>>>
 #  for HTTPS/WSS => HTTP/WS, you can test websocket by ```wscat -c wss://test-wss.mybluesky.local.com/ws```
-test-wss.rsky.ai {
-	import cors
-	tls rawbotsteam@gmail.com {
-		on_demand
-	}
+# test-wss.repsky.unify.mx {
+# 	import cors
+# 	tls thanhbpc.dev@gmail.com {
+# 		on_demand
+# 	}
 
-	@ws {
-		header Connection *Upgrade*
-		header Upgrade websocket
-	}
+# 	@ws {
+# 		header Connection *Upgrade*
+# 		header Upgrade websocket
+# 	}
 
-	reverse_proxy @ws http://test-wss:8080
-	reverse_proxy http://test-wss:8080
-}
+# 	reverse_proxy @ws http://test-wss:8080
+# 	reverse_proxy http://test-wss:8080
+# }
 
 #  for HTTP/WS => HTTP/WS, you can test websocket by ```wscat -c ws://test-ws.mybluesky.local.com/ws```
-http://test-ws.rsky.ai {
-	import cors
-	tls rawbotsteam@gmail.com {
-		on_demand
-	}
-	@ws {
-		header Connection *Upgrade*
-		header Upgrade websocket
-	}
+# http://test-ws.repsky.unify.mx {
+# 	import cors
+# 	tls thanhbpc.dev@gmail.com {
+# 		on_demand
+# 	}
+# 	@ws {
+# 		header Connection *Upgrade*
+# 		header Upgrade websocket
+# 	}
 
-	reverse_proxy @ws http://test-ws:8080
-	reverse_proxy http://test-ws:8080
-}
+# 	reverse_proxy @ws http://test-ws:8080
+# 	reverse_proxy http://test-ws:8080
+# }
 
 # ends: to check if caddy works as reverse proxy, for HTTP(S) and WS(S) <<<<<<<<<<
 
 # starts: simple mapping >>>>>
 
-feed-generator.rsky.ai {
+feed-generator.repsky.unify.mx {
 	import cors
-	tls rawbotsteam@gmail.com {
+	tls thanhbpc.dev@gmail.com {
 		on_demand
 	}
 	reverse_proxy http://feed-generator:3000

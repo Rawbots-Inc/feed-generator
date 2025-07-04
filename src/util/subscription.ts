@@ -101,7 +101,8 @@ export const getOpsByType = async (evt: Commit): Promise<OperationsByType> => {
 
     if (op.action === 'create') {
       if (!op.cid) continue
-      const recordBytes = car.blocks.get(op.cid.asCID)
+
+      const recordBytes = car.blocks.get(op.cid)
       if (!recordBytes) continue
       const record = cborToLexRecord(recordBytes)
       const create = { uri, cid: op.cid.toString(), author: evt.repo }

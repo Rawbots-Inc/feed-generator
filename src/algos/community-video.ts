@@ -6,7 +6,7 @@ import { sql } from 'kysely'
 
 export const shortname = 'community-video'
 
-export const handler = async (ctx: AppContext, params: QueryParams) => {
+export const handler = async (ctx: AppContext, params: QueryParams, requesterDid?: string) => {
   console.log(
     `handler get feed generator with param: \n limit: ${params?.limit}\n cursor: ${params?.cursor}\nfeed: ${params?.feed}`,
   )
