@@ -26,7 +26,7 @@ jetstream.onCreate(ids.AppBskyFeedPost, async (event) => {
             cid: event.commit.cid,
             indexedAt: new Date().toISOString(),
             community: community,
-            embed: embed,
+            embed: embed ? JSON.stringify(embed) : null,
         }
         try {
             await db

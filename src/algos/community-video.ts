@@ -49,6 +49,10 @@ export const handler = async (ctx: AppContext, params: QueryParams, requesterDid
     )
   `)
 
+  // builder = builder.where(sql<boolean>`
+  //   embed LIKE '%"app.bsky.embed.video"%' AND embed LIKE '%"mimeType":"video/%"%'
+  // `)
+
   console.log('Filtered video posts')
 
   if (timestamp != null) {
