@@ -19,7 +19,7 @@
 		method OPTIONS
 	}
 	@corsOrigin {
-		header_regexp Origin ^https?://*.repsky.unify.mx$
+		header_regexp Origin ^https?://*.rsky.ai$
 	}
 
 	handle @cors_preflight {
@@ -49,7 +49,7 @@
 #   accessible as https://ca.DOMAIN:9000/acme/local/directory
 #   cf. https://blog.kurokobo.com/archives/3669#Caddy_acme_server
 #
-ca.repsky.unify.mx:9000 {
+ca.rsky.ai:9000 {
 	tls internal
 	acme_server
 }
@@ -76,7 +76,7 @@ ca.repsky.unify.mx:9000 {
 
 # starts: to check if caddy works as reverse proxy, for HTTP(S) and WS(S) >>>>>>>>>>
 #  for HTTPS/WSS => HTTP/WS, you can test websocket by ```wscat -c wss://test-wss.mybluesky.local.com/ws```
-# test-wss.repsky.unify.mx {
+# test-wss.rsky.ai {
 # 	import cors
 # 	tls thanhbpc.dev@gmail.com {
 # 		on_demand
@@ -92,7 +92,7 @@ ca.repsky.unify.mx:9000 {
 # }
 
 #  for HTTP/WS => HTTP/WS, you can test websocket by ```wscat -c ws://test-ws.mybluesky.local.com/ws```
-# http://test-ws.repsky.unify.mx {
+# http://test-ws.rsky.ai {
 # 	import cors
 # 	tls thanhbpc.dev@gmail.com {
 # 		on_demand
@@ -110,9 +110,9 @@ ca.repsky.unify.mx:9000 {
 
 # starts: simple mapping >>>>>
 
-feed-generator.repsky.unify.mx {
+feed-generator.rsky.ai {
 	import cors
-	tls thanhbpc.dev@gmail.com {
+	tls rawbotsteam@gmail.com {
 		on_demand
 	}
 	reverse_proxy http://feed-generator:3000

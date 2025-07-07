@@ -1,5 +1,5 @@
 # Makefile
-DOMAIN ?=repsky.unify.mx
+DOMAIN ?=rsky.ai
 feedgenFQDN   ?=feed-generator.${DOMAIN}
 
 EMAIL4CERTS ?=thanhbpc.dev@gmail.com
