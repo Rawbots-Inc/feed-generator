@@ -14,7 +14,7 @@ volumes:
 
 networks:
  default:
-    name: bsky_rsky.ai
+    name: bsky_${DOMAIN}
     external: true
  
 services:
@@ -26,10 +26,10 @@ services:
       - 443:443/udp
       - 9000:9000
     environment:
-      - GOINSECURE=rsky.ai,*.rsky.ai
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
-      - DOMAIN=rsky.ai
-      - EMAIL4CERTS=rawbotsteam@gmail.com
+      - GOINSECURE=${GOINSECURE}
+      - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
+      - DOMAIN=${DOMAIN}
+      - EMAIL4CERTS=${EMAIL4CERTS}
       - BSKY_ADMIN_PASSWORDS=ADMINPASSWORD
     volumes:
       - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
@@ -49,8 +49,8 @@ services:
   caddy-sidecar:
     image: httpd:2
     environment:
-      - GOINSECURE=rsky.ai,*.rsky.ai
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - GOINSECURE=${GOINSECURE}
+      - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
     volumes:
        - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
 # to generate HTTPS certifications on-demand <<<<<
@@ -77,8 +77,8 @@ services:
     ports:
       - 5432:5432
     environment:
-      - GOINSECURE=rsky.ai,*.rsky.ai
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - GOINSECURE=${GOINSECURE}
+      - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

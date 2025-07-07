@@ -1,11 +1,16 @@
 # Makefile
-DOMAIN ?=rsky.ai
+ifneq ("$(wildcard .env)","")
+  include .env
+  export
+endif
+
+DOMAIN ?=repsky.unify.mx
 feedgenFQDN   ?=feed-generator.${DOMAIN}
 
 EMAIL4CERTS ?=thanhbpc.dev@gmail.com
 
 FEEDGEN_PUBLISHER_HANDLE ?=rskydev.bsky.social
-FEEDGEN_EMAIL ?=cthanh2316@gmail.com
+FEEDGEN_EMAIL ?=thanhbpc.dev@gmail.com
 FEEDGEN_PUBLISHER_PASSWORD ?=123456a@A
 FEEDGEN_PUBLISHER_DID ?=did:plc:3A62sygyqvpetbfz57ebmwvql4
 GOINSECURE :=${DOMAIN},*.${DOMAIN}
@@ -36,7 +41,7 @@ include ops/certs.mk
 include ops/docker.mk
 include ops/patch.mk
 
-.PHONY: setupdir genSecrets generateSecrets generateCA setup communityConfig communityVideoConfig build-images deploy publishFeedEnv
+.PHONY: setupdir genSecrets generateSecrets generateCA setup images-test build-images deploy publishFeedEnv
 
 setupdir:
 	mkdir -p ${aDir}
@@ -66,29 +71,10 @@ setup:
 	make generateCA
 
 build-images:
-	docker compose build ${Sfeed} 
+	DOMAIN=$(DOMAIN) GOINSECURE=$(GOINSECURE) NODE_TLS_REJECT_UNAUTHORIZED=$(NODE_TLS_REJECT_UNAUTHORIZED) EMAIL4CERTS=$(EMAIL4CERTS) docker compose build ${Sfeed} 
 
 deploy:
 	make docker-start-bsky-feedgen
-
-# Copy community.env to .env
-communityConfig:
-	@echo "Copying community.env → .env"
-	cp feeds_config/community.env .env
-
-# Copy community_video.env to .env
-communityVideoConfig:
-	@echo "Copying community_video.env → .env"
-	cp feeds_config/community_video.env .env
-
-# Run the feed publisher script
-publish:
-	@echo "Running publishFeedGen.ts"
-	npx tsx scripts/publishFeedGen.ts
-
-unpublish:
-	@echo "Running unpublishFeedGen.ts"
-	npx tsx scripts/unpublishFeedGen.ts
 
 echo:
 	@echo "Environment variables:"

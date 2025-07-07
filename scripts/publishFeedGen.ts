@@ -7,8 +7,8 @@ import { ids } from '../src/lexicon/lexicons'
 import { feeds } from './feeds_configs/feed'
 
 const run = async () => {
-  const handle = process.env.BSKY_HANDLE!
-  const password = process.env.BSKY_PASSWORD!
+  const handle = process.env.FEEDGEN_PUBLISHER_HANDLE!
+  const password = process.env.FEEDGEN_PUBLISHER_PASSWORD!
 
   if (!handle || !password) {
     throw new Error('Please provide a Bluesky handle and password in the .env file')

@@ -12,7 +12,7 @@ export const config = {
   publisherDid: process.env.FEEDGEN_PUBLISHER_DID || 'did:example:alice',
   subscriptionEndpoint: process.env.FEEDGEN_SUBSCRIPTION_ENDPOINT || 'wss://bsky.network',
   subscriptionReconnectDelay: process.env.FEEDGEN_SUBSCRIPTION_RECONNECT_DELAY || 3000,
-  bskyHandle: process.env.BSKY_HANDLE,
+  bskyHandle: process.env.FEEDGEN_PUBLISHER_HANDLE,
   bskyPw: process.env.BSKY_PASSWORD,
 };
 
